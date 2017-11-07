@@ -11,25 +11,48 @@ import android.util.Log
  * 定义一个可以飞的接口
  */
 interface CanFly {
-    fun fly()
-}
 
-/**
- * 飞行方式一：翅膀
- */
-class Wings {
-    fun move() {
-        Log.i(javaClass.name, "抖动翅膀！！")
-    }
+    val lazyType: String
+
+    fun fly()
 }
 
 /**
  * 动物飞行方式，扇动翅膀
  */
 class AnimalWithWings : CanFly {
-    private val wings: Wings = Wings()
-    override fun fly() = wings.move()
+
+    /**
+     * 代理属性
+     */
+    override val lazyType: String by lazy {
+        Log.i(javaClass.name, "属性初始化")
+        "动物"
+    }
+
+    override fun fly() {
+        Log.i(javaClass.name, "动物抖动翅膀！！")
+    }
 }
+
+/**
+ * 机器飞行方式，拥有动力
+ */
+class MachineWithPower : CanFly {
+
+    /**
+     * 代理属性
+     */
+    override val lazyType: String  by lazy {
+        Log.i(javaClass.name, "属性初始化")
+        "机器"
+    }
+
+    override fun fly() {
+        Log.i(javaClass.name, "机械使用动力飞行！！")
+    }
+}
+
 
 /**
  * 将Bird的飞行方式委托给AnimalWithWings
@@ -40,3 +63,8 @@ class Bird : CanFly by AnimalWithWings()
  * 将Bat的飞行方式委托给AnimalWithWings
  */
 class Bat : CanFly by AnimalWithWings()
+
+/**
+ * 将Plane的飞行方式委托给MachineWithPower
+ */
+class Plane : CanFly by MachineWithPower()
