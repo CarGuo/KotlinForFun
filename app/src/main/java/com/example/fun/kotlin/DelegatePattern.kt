@@ -1,9 +1,9 @@
 package com.example.`fun`.kotlin
 
-import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import kotlin.properties.Delegates
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 /**
  * 委托模式
@@ -95,3 +95,25 @@ class Bat : CanFly by AnimalWithWings()
  * 将Plane的飞行方式委托给MachineWithPower
  */
 class Plane : CanFly by MachineWithPower()
+
+
+object DelegatesExt {
+    fun <T> notNullSingleValue(): ReadWriteProperty<Any?, T> = NotNullSingleValueVar()
+}
+
+/**
+ * 自定义委托
+ */
+private class NotNullSingleValueVar<T> : ReadWriteProperty<Any?, T> {
+
+    private var value: T? = null
+
+    override fun getValue(thisRef: Any?, property: KProperty<*>): T {
+        return value ?: throw IllegalStateException("${property.name} not initialized")
+    }
+
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
+        this.value = if (this.value == null) value
+        else throw IllegalStateException("${property.name} already initialized")
+    }
+}
