@@ -27,6 +27,25 @@ interface CanFly {
     fun fly()
 }
 
+
+/**
+ * 定义一个吃货的接口
+ */
+interface CanEat {
+    //kotlin 接口可以定义未初始化的参数
+    var eatWhat:String
+    /**
+     * 类型
+     */
+    var objectType: String
+    /**
+     * 最喜欢吃的
+     */
+    var favoriteType: String
+
+    fun eat()
+}
+
 /**
  * 动物飞行方式，扇动翅膀
  */
@@ -80,16 +99,40 @@ class MachineWithPower : CanFly {
     }
 }
 
+/**
+ * 动物爱吃的
+ */
+class AnimalEat : CanEat {
+
+    override var eatWhat: String  by Delegates.observable("未知") { _, old, new ->
+        Log.i(javaClass.name, "吃什么从“{$old}”变成“{$new}")
+    }
+
+
+    override var objectType: String  by Delegates.observable("未知") { _, old, new ->
+        Log.i(javaClass.name, "类型从“{$old}”变成“{$new}")
+    }
+
+
+    override var favoriteType: String  by Delegates.observable("未知") { _, old, new ->
+        Log.i(javaClass.name, "{$objectType}最爱吃的从“{$old}”变成“{$new}")
+    }
+
+    override fun eat() {
+        Log.i(javaClass.name, "{$objectType}通过嘴巴吃：{$eatWhat}")
+    }
+}
+
 
 /**
- * 将Bird的飞行方式委托给AnimalWithWings
+ * 将Bird的飞行方式委托给AnimalWithWings，将动物爱吃的委托给AnimalEat
  */
-class Bird : CanFly by AnimalWithWings()
+class Bird : CanFly by AnimalWithWings(), CanEat by AnimalEat()
 
 /**
- * 将Bat的飞行方式委托给AnimalWithWings
+ * 将Bat的飞行方式委托给AnimalWithWings，将动物爱吃的委托给AnimalEat
  */
-class Bat : CanFly by AnimalWithWings()
+class Bat : CanFly by AnimalWithWings(), CanEat by AnimalEat()
 
 /**
  * 将Plane的飞行方式委托给MachineWithPower

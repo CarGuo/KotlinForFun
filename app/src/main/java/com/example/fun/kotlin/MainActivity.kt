@@ -44,13 +44,22 @@ class MainActivity : AppCompatActivity() {
         //调用代理方法
         bird.fly()
         //两次打印内代理属性，查看输出
-        Log.i(javaClass.name, "第一次打印代理飞行类型: " + bird.type)
-        Log.i(javaClass.name, "第二次打印代理飞行类型: " + bird.type)
+        Log.i(javaClass.name, "第一次打印鸟代理飞行类型: " + bird.type)
+        Log.i(javaClass.name, "第二次打印鸟代理飞行类型: " + bird.type)
         //设置委托观察属性
         bird.flyObject = "鸟"
+        bird.objectType = "鸟"
+        bird.eatWhat = "虫子"
+        bird.favoriteType = "虫子"
+        bird.eat()
 
         bat.fly()
         bat.flyObject = "蝙蝠"
+        bat.objectType = "蝙蝠"
+        bat.eatWhat = "血"
+        bat.favoriteType = "血"
+        bat.eat()
+
 
         plane.fly()
         plane.flyObject = "飞机"
