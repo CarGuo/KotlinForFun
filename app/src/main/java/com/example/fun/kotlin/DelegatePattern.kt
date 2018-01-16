@@ -136,8 +136,23 @@ class Bat : CanFly by AnimalWithWings(), CanEat by AnimalEat()
 
 /**
  * 将Plane的飞行方式委托给MachineWithPower
+ * 通过装饰器模式，将CanEat代理给eatObject，再修改CanEat的eat方法实现自定义
  */
-class Plane : CanFly by MachineWithPower()
+class Plane(private val eatObject: CanEat = AnimalEat())  : CanFly by MachineWithPower() , CanEat by eatObject {
+    override fun eat() {
+        Log.i(javaClass.name, "飞机不是动物，不会吃")
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 object DelegatesExt {
@@ -160,3 +175,16 @@ private class NotNullSingleValueVar<T> : ReadWriteProperty<Any?, T> {
         else throw IllegalStateException("${property.name} already initialized")
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

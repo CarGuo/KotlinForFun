@@ -64,6 +64,8 @@ class MainActivity : AppCompatActivity() {
         plane.fly()
         plane.flyObject = "飞机"
         plane.flyObject = "未知"
+
+        plane.eat()
     }
 
     /**
